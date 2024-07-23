@@ -50,9 +50,11 @@ class _MyHomePageState extends State<MyHomePage> {
     final url = Uri.parse('https://hf-android-app.s3-eu-west-1.amazonaws.com/android-test/recipes.json');
     try {
       final response = await http.get(url);
-      final extractedData = jsonDecode(response.body);
-      for (final data in extractedData) {
-        listProduct?.add(ProductItem.fromJson(data));
+      if(response.statusCode == 200) {
+        final extractedData = jsonDecode(response.body);
+        for (final data in extractedData) {
+          listProduct?.add(ProductItem.fromJson(data));
+        }
       }
     } catch (e) {
       BotToast.showSimpleNotification(
